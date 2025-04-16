@@ -16,7 +16,7 @@
   },
   "contributes": {
     "configuration": {
-      "title": "Auto Fold",
+      "title": "Auto Fold & Unfold Code",
       "properties": {
         "auto-fold.fold/unfold-imports-when-focus/blur": {
           "type": "boolean",
