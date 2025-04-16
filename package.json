@@ -83,6 +83,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NazmusSayad/auto-fold.git"
+    "url": "git+https://github.com/NazmusSayad/vscode.auto-fold.git"
   }
 }
