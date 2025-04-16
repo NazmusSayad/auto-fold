@@ -1,18 +1,19 @@
 {
   "name": "auto-fold",
   "version": "0.0.0",
-  "displayName": "auto-fold",
-  "main": "./dist/index.js",
-  "description": "",
-  "engines": {
-    "vscode": "^1.99.0"
+  "icon": "public/icon.png",
+  "publisher": "NazmusSayad",
+  "displayName": "Auto Fold",
+  "description": "Auto fold/unfold contents on any language",
+  "scripts": {
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "build": "npm run check-types && npm run lint && node esbuild.js --production && vsce package",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage"
-  ],
   "contributes": {
     "configuration": {
       "title": "Auto Fold",
@@ -30,34 +31,35 @@
       }
     }
   },
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.99.0",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "esbuild": "^0.25.1",
-    "eslint": "^9.23.0",
+    "@types/node": "^20.17.30",
+    "@types/vscode": "^1.99.1",
+    "@typescript-eslint/eslint-plugin": "^8.30.1",
+    "@typescript-eslint/parser": "^8.30.1",
+    "esbuild": "^0.25.2",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3",
+    "vsce": "^1.97.0"
+  },
+  "activationEvents": [
+    "onLanguage"
+  ],
+  "main": "./dist/index.js",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Linters",
+    "Visualization",
+    "Programming Languages"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NazmusSayad/auto-fold.git"
   }
 }

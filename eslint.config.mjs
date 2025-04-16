@@ -22,4 +22,7 @@ export default [
       'prettier/prettier': 'warn',
     },
   },
+  {
+    ignores: ['./dist'],
+  },
 ]
