@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "icon": "public/icon.png",
   "publisher": "NazmusSayad",
-  "displayName": "Auto Fold",
+  "displayName": "Auto Fold & Unfold Code",
   "description": "Auto fold/unfold contents on any language",
   "scripts": {
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "lint": "eslint ./src",
+    "check-types": "tsc --noEmit",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "build": "npm run check-types && npm run lint && node esbuild.js --production && vsce package",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src"
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "build": "npm run check-types && npm run lint && node esbuild.js --production && vsce package"
   },
   "contributes": {
     "configuration": {
@@ -57,6 +57,29 @@
     "Linters",
     "Visualization",
     "Programming Languages"
+  ],
+  "keywords": [
+    "fold",
+    "unfold",
+    "auto-fold",
+    "auto-unfold",
+    "auto-folding",
+    "auto-unfolding",
+    "folding",
+    "unfolding",
+    "code folding",
+    "code unfolding",
+    "code folding/unfolding",
+    "import",
+    "imports",
+    "import section",
+    "imports section",
+    "auto fold import",
+    "auto fold imports",
+    "auto unfold import",
+    "auto unfold imports",
+    "auto fold/unfold import",
+    "auto fold/unfold imports"
   ],
   "repository": {
     "type": "git",
