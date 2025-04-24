@@ -1,6 +1,6 @@
 {
   "name": "auto-fold",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icon": "public/icon.png",
   "publisher": "NazmusSayad",
   "displayName": "Auto Fold & Unfold Code",
@@ -21,17 +21,22 @@
         "auto-fold.enable-auto-fold-on-open": {
           "type": "boolean",
           "default": true,
-          "description": "Enable auto fold/unfold on open. This is not the default behavior of VSCode. But the default behavior of vscode sometime does not work. So this is enabled by default."
+          "description": "Enable auto fold/unfold on open."
         },
         "auto-fold.fold/unfold-imports-when-focus/blur": {
           "type": "boolean",
           "default": true,
           "description": "When import section is focused, unfold all imports. When import section is blurred, fold all imports."
         },
+        "auto-fold.focus/blur-line-padding": {
+          "type": "integer",
+          "default": 1,
+          "description": "Padding for focus/blur. This is the number of lines to be added to the top and bottom of the import section when it is focused."
+        },
         "auto-fold.enable-str-search-imports-for-js": {
           "type": "boolean",
           "default": true,
-          "description": "Enable string search for imports in JavaScript files. This is not the default behavior of VSCode. But the default behavior of vscode sometime does not work. So this is enabled by default."
+          "description": "Enable string search for imports in JavaScript files."
         }
       }
     }

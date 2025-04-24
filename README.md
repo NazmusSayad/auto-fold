@@ -32,6 +32,12 @@ The extension provides the following configuration options:
 - **Default**: `true`
 - **Description**: Enables string search for imports in JavaScript files. This is useful when VS Code's default folding behavior does not work as expected.
 
+### `auto-fold.focus/blur-line-padding`
+
+- **Type**: `integer`
+- **Default**: `1`
+- **Description**: The number of lines to add as padding when focusing or blurring the import section. This helps in ensuring that the import section is fully visible when unfolded.
+
 ## How to Use
 
 1. Install the extension from the VS Code marketplace or clone this repository and build it locally.

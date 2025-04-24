@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 
 interface Config {
   autoFoldOnSelectionChange: boolean
+  selectionLineOffsetPadding: number
   enableAutoFoldImportsOnOpen: boolean
   enableStrSearchImportsForJS: boolean
 }
@@ -18,6 +19,10 @@ export default class ConfigService {
     const config = vscode.workspace.getConfiguration('auto-fold')
 
     return {
+      selectionLineOffsetPadding: parseInt(
+        config.get('focus/blur-line-padding') ?? '1'
+      ),
+
       enableAutoFoldImportsOnOpen: Boolean(
         config.get('enable-auto-fold-on-open') ?? true
       ),

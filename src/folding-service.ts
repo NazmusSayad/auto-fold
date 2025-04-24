@@ -107,11 +107,21 @@ export default class FoldingService extends ConfigService {
     for (const range of await getFoldingRangeImports(document.uri, document)) {
       console.log('---> Folding range', range)
 
+      const rangeStart = Math.max(
+        range.start - this.config.selectionLineOffsetPadding,
+        0
+      )
+
+      const rangeEnd = Math.min(
+        range.end + this.config.selectionLineOffsetPadding,
+        document.lineCount - 1
+      )
+
       const isStartInRange =
-        range.start <= selection.start.line && range.end >= selection.start.line
+        rangeStart <= selection.start.line && rangeEnd >= selection.start.line
 
       const isEndInRange =
-        range.start <= selection.end.line && range.end >= selection.end.line
+        rangeStart <= selection.end.line && rangeEnd >= selection.end.line
 
       if (isStartInRange || isEndInRange) {
         await unfoldSelection(range.start)
