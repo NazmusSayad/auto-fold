@@ -14,6 +14,12 @@ Auto Fold is a Visual Studio Code extension that automatically folds and unfolds
 
 The extension provides the following configuration options:
 
+### `auto-fold.enable-auto-fold-on-open`
+
+- **Type**: `boolean`
+- **Default**: `true`
+- **Description**: Enable auto fold/unfold on open. This is not the default behavior of VSCode. But the default behavior of vscode sometime does not work. So this is enabled by default.
+
 ### `auto-fold.fold/unfold-imports-when-focus/blur`
 
 - **Type**: `boolean`

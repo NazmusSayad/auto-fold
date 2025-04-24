@@ -7,9 +7,9 @@ export function activate(context: vscode.ExtensionContext) {
   const foldingService = new FoldingService(context)
 
   vscode.workspace.onDidOpenTextDocument(foldingService.onDocumentOpen)
-  vscode.window.onDidChangeTextEditorSelection(foldingService.onSelectionChange)
-
+  vscode.workspace.onDidCloseTextDocument(foldingService.onDocumentClose)
   vscode.workspace.onDidChangeConfiguration(foldingService.onConfigChange)
+  vscode.window.onDidChangeTextEditorSelection(foldingService.onSelectionChange)
 }
 
 export function deactivate() {

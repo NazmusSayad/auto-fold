@@ -16,8 +16,30 @@ export default class FoldingService extends ConfigService {
     console.log('--> FoldingService initialized')
   }
 
+  private documentOpenCloseMap = new Set<string>()
+
+  private canDocumentBeSkipped = (document: vscode.TextDocument): boolean => {
+    if (document.isDirty) return true
+    if (document.isClosed) return true
+    if (document.isUntitled) return true
+    if (document.uri.scheme !== 'file') return true
+
+    return false
+  }
+
   public onDocumentOpen = async (document: vscode.TextDocument) => {
+    if (!this.config.enableAutoFoldImportsOnOpen) return
+
     if (!document) return console.warn('No document found')
+    if (this.canDocumentBeSkipped(document)) {
+      return console.warn('Document skipped', document.uri.toString())
+    }
+
+    const isOpen = this.documentOpenCloseMap.has(document.uri.toString())
+    if (isOpen) return console.warn('Document already opened, skipping folding')
+
+    this.documentOpenCloseMap.add(document.uri.toString())
+    console.log('> `onDocumentOpen`', document.uri.toString())
 
     /*
      * This is manual way to find the first import statement, and fold that
@@ -31,7 +53,12 @@ export default class FoldingService extends ConfigService {
     ) {
       const strSearchImports = getStringSearchImports(document)
       for (const start of strSearchImports) await foldSelection(start)
-      console.log('>', 'String search imports', strSearchImports.length)
+
+      console.log(
+        '> `onDocumentOpen`',
+        'String search imports',
+        strSearchImports.length
+      )
     }
 
     /*
@@ -39,15 +66,36 @@ export default class FoldingService extends ConfigService {
      * But it is not working as expected
      * So we are using the above method to fold the first import statement
      */
-    const foldingRanges = await getFoldingRangeImports(document.uri)
+    const foldingRanges = await getFoldingRangeImports(document.uri, document)
     for (const range of foldingRanges) await foldSelection(range.start)
-    console.log('>', 'Folding range imports', foldingRanges.length)
+
+    console.log(
+      '> `onDocumentOpen`',
+      'Folding range imports',
+      foldingRanges.length
+    )
+  }
+
+  public onDocumentClose = async (document: vscode.TextDocument) => {
+    if (!document) return console.warn('No document found')
+
+    if (this.canDocumentBeSkipped(document)) {
+      return console.warn('Document skipped', document.uri.toString())
+    }
+
+    this.documentOpenCloseMap.delete(document.uri.toString())
+    console.log(
+      '> `onDocumentClose`',
+      document.uri.toString(),
+      document.isClosed
+    )
   }
 
   public onSelectionChange = async (
     event: vscode.TextEditorSelectionChangeEvent
   ) => {
     if (!this.config.autoFoldOnSelectionChange) return
+
     if (event.textEditor !== vscode.window.activeTextEditor) return
 
     const document = event.textEditor.document
@@ -56,7 +104,9 @@ export default class FoldingService extends ConfigService {
       return console.warn('No document or selection found')
     }
 
-    for (const range of await getFoldingRangeImports(document.uri)) {
+    for (const range of await getFoldingRangeImports(document.uri, document)) {
+      console.log('---> Folding range', range)
+
       const isStartInRange =
         range.start <= selection.start.line && range.end >= selection.start.line
 

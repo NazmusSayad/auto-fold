@@ -16,19 +16,43 @@ export function getStringSearchImports(
   }
 }
 
-export async function getFoldingRangeImports(uri: vscode.Uri) {
+export async function getFoldingRangeImports(
+  uri: vscode.Uri,
+  initDocument?: vscode.TextDocument
+) {
   try {
     const foldingRanges = await vscode.commands.executeCommand<
       vscode.FoldingRange[]
     >('vscode.executeFoldingRangeProvider', uri)
 
+    const document =
+      initDocument ?? (await vscode.workspace.openTextDocument(uri))
+
     if (!foldingRanges) {
       throw new Error('No folding ranges found')
     }
 
-    return foldingRanges.filter(
-      (range) => range.kind === vscode.FoldingRangeKind.Imports
-    )
+    const filteredRanges = foldingRanges.filter((range) => {
+      if (range.kind !== vscode.FoldingRangeKind.Imports) return false
+
+      const content = document.getText(
+        new vscode.Range(
+          new vscode.Position(range.start, 0),
+          new vscode.Position(range.start + 1, 0)
+        )
+      )
+
+      /**
+       * Check if the line starts with 'import', works only for JS and TS
+       */
+      const trimmedContent = content.trim()
+      if (!trimmedContent.startsWith('import')) return false
+
+      console.log('import found:', trimmedContent)
+      return true
+    })
+
+    return filteredRanges[0] ? [filteredRanges[0]] : []
   } catch (err) {
     console.error('Error getting folding ranges:', err)
     return []
